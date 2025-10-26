@@ -12,4 +12,10 @@ data class SignInState(
     val isEmailValid: Boolean
         get() = email.isNotEmpty() &&
                 Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+    val isFormValid: Boolean
+        get() = email.isNotBlank() &&
+                password.isNotBlank() &&
+                !isLoading &&
+                isEmailValid
 }

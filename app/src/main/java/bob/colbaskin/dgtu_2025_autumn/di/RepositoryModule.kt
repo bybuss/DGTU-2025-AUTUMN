@@ -7,8 +7,11 @@ import bob.colbaskin.dgtu_2025_autumn.auth.domain.auth.AuthRepository
 import bob.colbaskin.dgtu_2025_autumn.auth.domain.token.RefreshTokenRepository
 import bob.colbaskin.dgtu_2025_autumn.auth.domain.token.RefreshTokenService
 import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.data.UserPreferencesRepositoryImpl
+import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.data.UserRepositoryImpl
 import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.data.datastore.UserDataStore
 import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.domain.UserPreferencesRepository
+import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.domain.remote.UserRepository
+import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.domain.remote.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,7 +39,7 @@ object RepositoryModule {
     @Singleton
     fun provideAuthRepository(
         authApi: AuthApiService,
-        userPreferences: UserPreferencesRepository,
+        userPreferences: UserPreferencesRepository
     ): AuthRepository {
         return AuthRepositoryImpl(
             authApi = authApi,
@@ -57,6 +60,22 @@ object RepositoryModule {
     ): RefreshTokenRepository {
         return RefreshTokenRepositoryImpl(
             tokenApi = tokenApi
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserApiService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        userApi: UserService
+    ): UserRepository {
+        return UserRepositoryImpl(
+            userApi = userApi
         )
     }
 }

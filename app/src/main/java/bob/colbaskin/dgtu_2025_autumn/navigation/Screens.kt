@@ -4,13 +4,16 @@ import kotlinx.serialization.Serializable
 
 interface Screens {
     @Serializable
-    data object Home: Screens
+    data object Dashboard: Screens
 
     @Serializable
-    data object SomeScreen: Screens
+    data object Projects: Screens
 
     @Serializable
-    data object Profile: Screens
+    data object Rapports: Screens
+
+    @Serializable
+    data object Admin: Screens
 
     @Serializable
     data object Welcome: Screens
@@ -23,4 +26,7 @@ interface Screens {
 
     @Serializable
     data object SignUp: Screens
+
+    @Serializable
+    data object WaitingVerification: Screens
 }

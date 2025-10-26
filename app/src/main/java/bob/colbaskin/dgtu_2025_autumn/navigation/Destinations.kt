@@ -1,30 +1,36 @@
 package bob.colbaskin.dgtu_2025_autumn.navigation
 
-
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Screenshot
-import androidx.compose.ui.graphics.vector.ImageVector
+import bob.colbaskin.dgtu_2025_autumn.R
+import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.data.models.Role
 
 enum class Destinations(
-    val icon: ImageVector,
+    val icon: Int,
     val label: String,
-    val screen: Screens
+    val screen: Screens,
+    val allowedRoles: List<Role> = listOf(Role.USER, Role.ANALYST, Role.ADMIN)
 ) {
-    HOME(
-        icon = Icons.Default.Home,
-        label = "Home",
-        screen = Screens.Home
+    DASHBOARD(
+        icon = R.drawable.layout_dashboard_2,
+        label = "Дашборд",
+        screen = Screens.Dashboard,
+        allowedRoles = listOf(Role.USER, Role.ANALYST, Role.ADMIN)
     ),
-    SOME_SCREEN(
-        icon = Icons.Default.Screenshot,
-        label = "SomeScreen",
-        screen = Screens.SomeScreen
+    PROJECTS(
+        icon = R.drawable.file_analytics_1,
+        label = "Проекты",
+        screen = Screens.Projects,
+        allowedRoles = listOf(Role.USER, Role.ANALYST, Role.ADMIN)
     ),
-    PROFILE(
-        icon = Icons.Default.Person,
-        label = "Profile",
-        screen = Screens.Profile
+    RAPPORTS(
+        icon = R.drawable.chart_dots_2_1,
+        label = "Отчеты",
+        screen = Screens.Rapports,
+        allowedRoles = listOf(Role.USER, Role.ANALYST, Role.ADMIN)
+    ),
+    ADMIN(
+        icon = R.drawable.brand_codesandbox_1,
+        label = "Админ",
+        screen = Screens.Admin,
+        allowedRoles = listOf(Role.ADMIN)
     )
 }

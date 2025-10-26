@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RegisterDTO(
     val id: Int,
-    val email: String
+    val email: String,
+    val name: String
 )

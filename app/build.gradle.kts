@@ -133,4 +133,6 @@ dependencies {
 
     // Material Icons
     implementation(libs.androidx.material.icons.extended)
+
+    implementation (libs.compose.charts)
 }

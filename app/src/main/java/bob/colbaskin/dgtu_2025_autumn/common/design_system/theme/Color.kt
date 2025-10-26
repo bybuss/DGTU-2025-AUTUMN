@@ -3,17 +3,25 @@ package bob.colbaskin.dgtu_2025_autumn.common.design_system.theme
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-
 data class AppColors(
-    val color: Color,
+    val purple: Color,
+    val orange: Color,
+    val lightBlue: Color,
+    val lavander: Color
 )
 
 val LocalColors = compositionLocalOf { lightColors }
 
 val lightColors = AppColors(
-    color = Color(0xFF000000),
+    purple = Color(0xFF7700FF),
+    orange = Color(0xFFFF4F12),
+    lightBlue = Color(0xFF749FD6),
+    lavander = Color(0xFFE8D2ED)
 )
 
 val darkColors  = AppColors(
-    color = Color(0xFFFFFFFF)
+    purple = Color(0xFF7700FF),
+    orange = Color(0xFFFF4F12),
+    lightBlue = Color(0xFF749FD6),
+    lavander = Color(0xFFE8D2ED)
 )

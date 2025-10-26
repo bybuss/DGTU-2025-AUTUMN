@@ -1,23 +1,22 @@
 package bob.colbaskin.dgtu_2025_autumn.auth.presentation.sign_in
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bob.colbaskin.dgtu_2025_autumn.auth.domain.auth.AuthRepository
-import bob.colbaskin.dgtu_2025_autumn.common.UiState
 import bob.colbaskin.dgtu_2025_autumn.common.toUiState
-import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.data.models.AuthConfig
-import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.domain.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "Auth"
+
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val userPreferences: UserPreferencesRepository,
+    private val authRepository: AuthRepository
 ): ViewModel() {
 
     var state by mutableStateOf(SignInState())
@@ -41,10 +40,9 @@ class SignInViewModel @Inject constructor(
             ).toUiState()
 
             state = state.copy(
-                authState = UiState.Success(Unit)/* response */,
+                authState = response,
                 isLoading = false
             )
-            userPreferences.saveAuthStatus(AuthConfig.AUTHENTICATED)
         }
     }
 

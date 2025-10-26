@@ -1,23 +1,22 @@
 package bob.colbaskin.dgtu_2025_autumn.auth.presentation.sign_up
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bob.colbaskin.dgtu_2025_autumn.auth.domain.auth.AuthRepository
-import bob.colbaskin.dgtu_2025_autumn.common.UiState
 import bob.colbaskin.dgtu_2025_autumn.common.toUiState
-import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.data.models.AuthConfig
-import bob.colbaskin.dgtu_2025_autumn.common.user_prefs.domain.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.launch
 
+private const val TAG = "Auth"
+
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val userPreferences: UserPreferencesRepository,
 
 ): ViewModel() {
 
@@ -27,8 +26,10 @@ class SignUpViewModel @Inject constructor(
     fun onAction(action: SignUpAction) {
         when (action) {
             SignUpAction.SignUp -> register()
+            is SignUpAction.UpdateUsername -> updateUsername(action.username)
             is SignUpAction.UpdateEmail -> updateEmail(action.email)
             is SignUpAction.UpdatePassword -> updatePassword(action.password)
+            is SignUpAction.UpdateConfirmPassword -> updateConfirmPassword(action.confirmPassword)
             else -> Unit
         }
     }
@@ -38,15 +39,21 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             val response = authRepository.register(
                 email = state.email,
-                password = state.password
+                password = state.password,
+                name = state.name
             ).toUiState()
 
+            Log.d(TAG, "Data from VM register: $response")
+
             state = state.copy(
-                authState = UiState.Success(Unit)/* response */,
+                authState = response,
                 isLoading = false
             )
-            userPreferences.saveAuthStatus(AuthConfig.AUTHENTICATED)
         }
+    }
+
+    private fun updateUsername(username: String) {
+        state = state.copy(name = username)
     }
 
     private fun updateEmail(email: String) {
@@ -55,5 +62,9 @@ class SignUpViewModel @Inject constructor(
 
     private fun updatePassword(password: String) {
         state = state.copy(password = password)
+    }
+
+    private fun updateConfirmPassword(confirmPassword: String) {
+        state = state.copy(confirmPassword = confirmPassword)
     }
 }

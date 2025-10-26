@@ -21,6 +21,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 import javax.inject.Provider
 
 @Module
@@ -36,6 +37,15 @@ object RemoteModule {
 
     @Provides
     @Singleton
+    fun provideCookieJar(@ApplicationContext context: Context): PersistentCookieJar {
+        return PersistentCookieJar(
+            SetCookieCache(),
+            SharedPrefsCookiePersistor(context)
+        )
+    }
+
+    @Provides
+    @Singleton
     fun provideTokenAuthenticator(
         refreshTokenRepository: Provider<RefreshTokenRepository>
     ): TokenAuthenticator {
@@ -47,14 +57,9 @@ object RemoteModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        @ApplicationContext context: Context,
+        cookieJar: PersistentCookieJar,
         tokenAuthenticator: TokenAuthenticator
     ): OkHttpClient {
-        val cookieJar = PersistentCookieJar(
-            SetCookieCache(),
-            SharedPrefsCookiePersistor(context)
-        )
-
         return OkHttpClient.Builder()
             .cookieJar(cookieJar)
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -62,7 +67,7 @@ object RemoteModule {
             })
             .addInterceptor { chain ->
                 val request = chain.request()
-                Log.d("Cookies", "Sending cookies: ${request.headers["Cookie"]}")
+                Log.d("Cookies", "Sending cookies: ${cookieJar.loadForRequest(request.url)}")
                 val response = chain.proceed(request)
                 Log.d("Cookies", "Received cookies: ${response.headers["Set-Cookie"]}")
                 response

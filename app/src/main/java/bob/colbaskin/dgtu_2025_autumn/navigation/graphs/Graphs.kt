@@ -12,4 +12,7 @@ interface Graphs {
 
     @Serializable
     data object Detailed: Graphs
+
+    @Serializable
+    object Verification: Graphs
 }
