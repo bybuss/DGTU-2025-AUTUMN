@@ -229,8 +229,8 @@ fun UsersScreen(
     onAction: (AdminPanelAction) -> Unit
 ) {
     LaunchedEffect(true) {
-        onAction(AdminPanelAction.GetAllUnVerifyUsers)
         onAction(AdminPanelAction.GetAllUsers)
+        onAction(AdminPanelAction.GetAllUnVerifyUsers)
     }
 
     val allUnVerifyUsers = state.unVerifyUserState
