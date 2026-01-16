@@ -53,10 +53,12 @@
   <img src="screenshots/6.png" width="125" />
   <img src="screenshots/7.png" width="125" />
   <img src="screenshots/8.png" width="125" />
+  <img src="screenshots/8-9anim.gif" width="125" />
   <img src="screenshots/9.png" width="125" />
   <img src="screenshots/10.png" width="125" />
   <img src="screenshots/11.png" width="125" />
   <img src="screenshots/12.png" width="125" />
+  <img src="screenshots/12-13anim.gif" width="125" />
   <img src="screenshots/13.png" width="125" />
   <img src="screenshots/14.png" width="125" />
   <img src="screenshots/15.png" width="125" />
